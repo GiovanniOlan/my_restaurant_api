@@ -1,6 +1,7 @@
 from django.contrib import admin
-from apps.users.models import User
+from apps.users.models import *
 
 
-admin.site.register(User)
 # Register your models here.
+admin.site.register(CategoryGender)
+admin.site.register(UserCustom)

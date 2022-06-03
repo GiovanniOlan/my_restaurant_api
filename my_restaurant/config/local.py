@@ -14,7 +14,7 @@ DATABASES = {
     # }
     'default':{
         'ENGINE' : 'django.db.backends.mysql',
-        'NAME' : 'my-restaurant',
+        'NAME' : 'my_restaurant',
         'USER' : 'root1',
         'PASSWORD' : 'root1',
         'HOST' : 'localhost',
