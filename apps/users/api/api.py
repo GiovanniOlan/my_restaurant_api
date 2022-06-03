@@ -7,7 +7,7 @@ from apps.users.api.serializers import *
 from rest_framework import viewsets
 
 class UserOwnerViewSet(viewsets.ModelViewSet):
-    serializer_class = UserCustomSerializer
+    serializer_class = UserOwnerSerializer
     serializer_class_second = UserSerializer
     queryset = serializer_class.Meta.model.objects.filter(state=True)
 

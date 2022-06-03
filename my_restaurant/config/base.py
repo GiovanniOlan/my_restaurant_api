@@ -28,7 +28,8 @@ BASE_APPS = [
 ]
 
 LOCAL_APPS = [
-    'apps.users'
+    'apps.users',
+    'apps.restaurant'
 ]
 THIRD_APPS = [
     'rest_framework',

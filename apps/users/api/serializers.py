@@ -27,12 +27,12 @@ class GenderSerializer(serializers.ModelSerializer):
         model = CategoryGender
         exclude = ('state','created_date','modified_date','deleted_date')
         
-class UserCustomSerializer(serializers.ModelSerializer):
+class UserOwnerSerializer(serializers.ModelSerializer):
     #usu_fkuser   = UserSerializer()
     #usu_fkgender = serializers.StringRelatedField()
     
     class Meta:
-        model   = UserCustom
+        model   = UserOwner
         exclude = ('state','created_date','modified_date','deleted_date')
     
     def to_representation(self, instance):

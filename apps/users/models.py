@@ -71,7 +71,7 @@ class CategoryGender(BaseModel):
         """Unicode representation of CategoryGender"""
         return f'{self.catgen_name}'
     
-class UserCustom(BaseModel):
+class UserOwner(BaseModel): #Its UserOwner
     usu_fkgender   = models.ForeignKey(CategoryGender, on_delete=models.CASCADE,db_column='usu_fkgender',verbose_name='Genero')
     usu_datebirth  = models.DateTimeField(verbose_name='Fecha De Nacimiento')
     usu_address    = models.CharField('Dirección',max_length=255)
@@ -89,7 +89,7 @@ class UserCustom(BaseModel):
 
     class Meta:
         """Meta definition for UserCustom"""
-        db_table = 'USER_CUSTOM'
+        db_table = 'USER_OWNER'
         verbose_name = 'Usuario'
         verbose_name_plural = 'Usuarios'
 
