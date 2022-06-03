@@ -45,10 +45,10 @@ class UserCustomSerializer(serializers.ModelSerializer):
         }
         return response
 
-class ClientSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Client
-        exclude = ('state','created_date','modified_date','deleted_date')
+# class ClientSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Client
+#         exclude = ('state','created_date','modified_date','deleted_date')
     
         
     

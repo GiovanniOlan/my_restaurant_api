@@ -72,11 +72,11 @@ class CategoryGender(BaseModel):
         return f'{self.catgen_name}'
     
 class UserCustom(BaseModel):
-    usu_fkgender  = models.ForeignKey(CategoryGender, on_delete=models.CASCADE,db_column='usu_fkgender',verbose_name='Genero')
-    usu_age     = models.PositiveSmallIntegerField('Edad')
-    usu_address = models.CharField('Dirección',max_length=255)
-    usu_premium = models.BooleanField('Premium',default = False)
-    usu_fkuser  = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,default='',db_column='usu_fkuser',verbose_name='User')
+    usu_fkgender   = models.ForeignKey(CategoryGender, on_delete=models.CASCADE,db_column='usu_fkgender',verbose_name='Genero')
+    usu_datebirth  = models.DateTimeField(verbose_name='Fecha De Nacimiento')
+    usu_address    = models.CharField('Dirección',max_length=255)
+    usu_premium    = models.BooleanField('Premium',default = False)
+    usu_fkuser     = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,default='',db_column='usu_fkuser',verbose_name='User')
     usu_historical = HistoricalRecords()
     
     @property
@@ -103,23 +103,23 @@ class UserCustom(BaseModel):
     def long_name(self):
         return f'{self.usu_fkuser.first_name} {self.usu_fkuser.last_name}'
     
-class Client(BaseModel):
-    cli_fkusercustom  = models.ForeignKey(UserCustom, on_delete=models.CASCADE,db_column='cli_fkusercustom',verbose_name='Usuario')
-    usu_historical = HistoricalRecords()
+# class Client(BaseModel):
+#     cli_fkusercustom  = models.ForeignKey(UserCustom, on_delete=models.CASCADE,db_column='cli_fkusercustom',verbose_name='Usuario')
+#     usu_historical = HistoricalRecords()
 
-    @property
-    def _history_user(self):
-        return self.changed_by
+#     @property
+#     def _history_user(self):
+#         return self.changed_by
 
-    @_history_user.setter
-    def _history_user(self,value):
-        self.changed_by = value  
-    class Meta:
-        """Meta definition for Client"""
-        db_table = 'CLIENTS'
-        verbose_name = 'Cliente'
-        verbose_name_plural = 'Clientes'
+#     @_history_user.setter
+#     def _history_user(self,value):
+#         self.changed_by = value  
+#     class Meta:
+#         """Meta definition for Client"""
+#         db_table = 'CLIENTS'
+#         verbose_name = 'Cliente'
+#         verbose_name_plural = 'Clientes'
 
-    def __str__(self):
-        """Unicode representation of Client"""
-        return f'{self.cli_fkusercustom.long_name}'
+#     def __str__(self):
+#         """Unicode representation of Client"""
+#         return f'{self.cli_fkusercustom.long_name}'
