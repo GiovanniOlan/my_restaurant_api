@@ -3,6 +3,7 @@ from apps.users.api.api import *
 
 router = DefaultRouter()
 
-router.register(r'user',UserSerializer,basename='users')
+router.register(r'user-owner',UserOwnerViewSet,basename='users')
+router.register(r'client',UserClientViewSet,basename='client')
 
 urlpatterns = router.urls 
