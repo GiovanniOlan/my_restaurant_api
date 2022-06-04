@@ -5,8 +5,9 @@ from rest_framework.views import APIView
 #from apps.users.models import User
 from apps.users.api.serializers import *
 from rest_framework import viewsets
+from apps.users.authentication_mixin import Authentication
 
-class UserOwnerViewSet(viewsets.ModelViewSet):
+class UserOwnerViewSet(Authentication,viewsets.ModelViewSet):
     serializer_class = UserOwnerSerializer
     serializer_class_second = UserSerializer
     queryset = serializer_class.Meta.model.objects.filter(state=True)

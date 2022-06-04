@@ -33,7 +33,8 @@ LOCAL_APPS = [
 ]
 THIRD_APPS = [
     'rest_framework',
-    'simple_history'
+    'rest_framework.authtoken',
+    'simple_history',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
