@@ -92,12 +92,12 @@ class CategoryRol(BaseModel):
         
         
 class UserOwner(BaseModel): #Its UserOwner
-    usu_fkgender   = models.ForeignKey(CategoryGender, on_delete=models.CASCADE,db_column='usu_fkgender',verbose_name='Genero')
+    usu_fkgender   = models.ForeignKey(CategoryGender, on_delete=models.CASCADE,default='',db_column='usu_fkgender',verbose_name='Genero')
     usu_datebirth  = models.DateTimeField(verbose_name='Fecha De Nacimiento')
     usu_address    = models.CharField('Dirección',max_length=255)
     usu_premium    = models.BooleanField('Premium',default = False)
-    usu_fkrol      = models.ForeignKey(CategoryRol,on_delete=models.CASCADE,db_column='usu_fkrol',verbose_name='Rol')
-    usu_fkuser     = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,db_column='usu_fkuser',verbose_name='User')
+    usu_fkrol      = models.ForeignKey(CategoryRol,on_delete=models.CASCADE,default='',db_column='usu_fkrol',verbose_name='Rol')
+    usu_fkuser     = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,default='',db_column='usu_fkuser',verbose_name='User')
     usu_historical = HistoricalRecords()
     
     @property
@@ -117,6 +117,9 @@ class UserOwner(BaseModel): #Its UserOwner
     def __str__(self):
         """Unicode representation of UserCustom"""
         return f'{self.usu_fkuser}'
+    
+    def has_role(self,str_rol):
+        return True if self.usu_fkrol.rol_code == str_rol else False
     
     def short_name(self):
         return  f'{self.usu_fkuser.first_name}'

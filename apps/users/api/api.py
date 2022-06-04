@@ -13,39 +13,48 @@ class UserOwnerViewSet(Authentication,viewsets.ModelViewSet):
     queryset = serializer_class.Meta.model.objects.filter(state=True)
 
     def create(self,request):
-        data = request.data
-        authuser_serializer = self.serializer_class_second(data=data['auth_user'])
-        if authuser_serializer.is_valid():
-            auth_user = authuser_serializer.save()
-            data['user_custom']['usu_fkuser'] = auth_user.id
-            usercustom_serializer = self.serializer_class(data=data['user_custom'])
-            if usercustom_serializer.is_valid():
-                usercustom_serializer.save()
-                return Response({'message': 'Usuario Creado Correctamente.'},status=status.HTTP_201_CREATED)
+        # if self.user_owner.has_role('owner'):
+        if self.user.is_superuser==1:
+            data = request.data
+            authuser_serializer = self.serializer_class_second(data=data['auth_user'])
+            if authuser_serializer.is_valid():
+                auth_user = authuser_serializer.save()
+                data['user_custom']['usu_fkuser'] = auth_user.id
+                usercustom_serializer = self.serializer_class(data=data['user_custom'])
+                if usercustom_serializer.is_valid():
+                    usercustom_serializer.save()
+                    return Response({'message': 'Usuario Creado Correctamente.'},status=status.HTTP_201_CREATED)
+                
+                delete_user = User.objects.filter(id=auth_user.id).first()
+                delete_user.delete()
+                return Response(usercustom_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
             
-            delete_user = User.objects.filter(id=auth_user.id).first()
-            delete_user.delete()
-            return Response(usercustom_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-        
-        return Response(authuser_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+            return Response(authuser_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'message': 'No tienes autorización para este contenido.'},status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
 
     def update(self, request,pk):
-        instance_usercustom = self.serializer_class.Meta.model.objects.filter(state=True,id=pk).first()
-        usercustom_serializer = self.serializer_class(instance_usercustom,data=request.data['user_custom'])
+        print(self.user)
+        #if self.user_owner.has_role('owner'):
+        if self.user.is_superuser==1:
+            instance_usercustom = self.serializer_class.Meta.model.objects.filter(state=True,id=pk).first()
+            usercustom_serializer = self.serializer_class(instance_usercustom,data=request.data['user_custom'])
+            if usercustom_serializer.is_valid():
+                usercustom = usercustom_serializer.save()
+                instance_authuser = User.objects.filter(id=usercustom.usu_fkuser.id).first()
+                authuser_serializer = self.serializer_class_second(instance_authuser,data=request.data['auth_user'])
+                print(authuser_serializer)
+                if authuser_serializer.is_valid():
+                    #self.perform_update(authuser_serializer)
+                    authuser = authuser_serializer.save()
+                    
+                    return Response({'message': 'Usuario Actualizado Correctamente.'},status=status.HTTP_200_OK)
+                return Response(authuser_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+                            
+            return Response(usercustom_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'message': 'No tienes autorización para este contenido.'},status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
         
-        if usercustom_serializer.is_valid():
-            usercustom = usercustom_serializer.save()
-            instance_authuser = User.objects.filter(id=usercustom.usu_fkuser.id).first()
-            authuser_serializer = self.serializer_class_second(instance_authuser,data=request.data['auth_user'])
-            b = request.data['auth_user']
-            if authuser_serializer.is_valid():
-                #self.perform_update(authuser_serializer)
-                authuser = authuser_serializer.save()
-                
-                return Response({'message': 'Usuario Actualizado Correctamente.'},status=status.HTTP_200_OK)
-            return Response(authuser_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-                        
-        return Response(usercustom_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
         
 
