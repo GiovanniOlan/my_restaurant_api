@@ -46,6 +46,9 @@ class UserOwnerViewSet(Authentication,viewsets.ModelViewSet):
             return Response(authuser_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
                         
         return Response(usercustom_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+        
+
         
 # class UserClientViewSet(viewsets.ModelViewSet):
 #     serializer_class = ClientSerializer

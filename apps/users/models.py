@@ -63,20 +63,41 @@ class CategoryGender(BaseModel):
     def _history_user(self,value):
         self.changed_by = value  
     class Meta:
-        """Meta definition for CategoryGender"""
         db_table = 'CAT_GENDER'
         verbose_name = 'Genero'
         verbose_name_plural = 'Generos'
     def __str__(self):
-        """Unicode representation of CategoryGender"""
         return f'{self.catgen_name}'
     
+    
+class CategoryRol(BaseModel):
+    rol_code           = models.CharField('Código',max_length=30)
+    rol_description    = models.TextField('Descripción')
+    catgen_historical  = HistoricalRecords()
+
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self,value):
+        self.changed_by = value  
+    class Meta:
+        db_table = 'CAT_ROL'
+        verbose_name = 'Rol'
+        verbose_name_plural = 'Roles'
+
+    def __str__(self):
+        return f'{self.rol_code}'
+        
+        
 class UserOwner(BaseModel): #Its UserOwner
     usu_fkgender   = models.ForeignKey(CategoryGender, on_delete=models.CASCADE,db_column='usu_fkgender',verbose_name='Genero')
     usu_datebirth  = models.DateTimeField(verbose_name='Fecha De Nacimiento')
     usu_address    = models.CharField('Dirección',max_length=255)
     usu_premium    = models.BooleanField('Premium',default = False)
-    usu_fkuser     = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,default='',db_column='usu_fkuser',verbose_name='User')
+    usu_fkrol      = models.ForeignKey(CategoryRol,on_delete=models.CASCADE,db_column='usu_fkrol',verbose_name='Rol')
+    usu_fkuser     = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,db_column='usu_fkuser',verbose_name='User')
     usu_historical = HistoricalRecords()
     
     @property

@@ -37,6 +37,15 @@ class CategoryMenu(BaseModel):
     catmen_name         = models.CharField('Nombre',max_length=30) 
     catmen_description  = models.TextField('Descripción')
     catmen_fkrestaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE,db_column='catmen_fkrestaurant', verbose_name='Restaurante')
+    catmen_historical  = HistoricalRecords()
+    
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self,value):
+        self.changed_by = value  
     class Meta:
         db_table            = 'CAT_MENU'
         verbose_name        = 'Categoría Del Menú'
@@ -53,7 +62,15 @@ class CategoryMenuItem(BaseModel):
     catmenite_image       = models.ImageField('Imagen',upload_to='images/menu-item')
     catmenite_price       = models.DecimalField('Precio',max_digits=10, decimal_places=2)
     catmenite_fkcatmenu   = models.ForeignKey(CategoryMenu, on_delete=models.CASCADE,db_column='catmenite_fkcatmenu', verbose_name='Categoria')
+    catmenite_historical  = HistoricalRecords()
+    
+    @property
+    def _history_user(self):
+        return self.changed_by
 
+    @_history_user.setter
+    def _history_user(self,value):
+        self.changed_by = value  
     class Meta:
         db_table            = 'CAT_MENU_ITEM'
         verbose_name        = 'Plato'
