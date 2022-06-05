@@ -20,5 +20,6 @@ from apps.users.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('apps.users.api.routers')),
+    path('restaurant/', include('apps.restaurant.api.routers')),
     path('',Login.as_view(),name='login')
 ]

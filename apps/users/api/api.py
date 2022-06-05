@@ -1,10 +1,6 @@
+from rest_framework import status,viewsets
 from rest_framework.response import Response
-from rest_framework import generics
-from rest_framework import status
-from rest_framework.views import APIView
-#from apps.users.models import User
 from apps.users.api.serializers import *
-from rest_framework import viewsets
 from apps.users.authentication_mixin import Authentication
 
 class UserOwnerViewSet(Authentication,viewsets.ModelViewSet):
@@ -31,7 +27,7 @@ class UserOwnerViewSet(Authentication,viewsets.ModelViewSet):
             
             return Response(authuser_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'message': 'No tienes autorización para este contenido.'},status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
+            return Response({'message': 'No tienes autorización para este contenido.'},status=status.HTTP_401_UNAUTHORIZED)
 
     def update(self, request,pk):
         print(self.user)
@@ -53,7 +49,7 @@ class UserOwnerViewSet(Authentication,viewsets.ModelViewSet):
                             
             return Response(usercustom_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'message': 'No tienes autorización para este contenido.'},status=status.HTTP_203_NON_AUTHORITATIVE_INFORMATION)
+            return Response({'message': 'No tienes autorización para este contenido.'},status=status.HTTP_401_UNAUTHORIZED)
         
     
         
