@@ -5,3 +5,5 @@ from apps.restaurant.models import *
 admin.site.register(Restaurant)
 admin.site.register(CategoryMenu)
 admin.site.register(CategoryMenuItem)
+admin.site.register(Client)
+admin.site.register(Empleado)
