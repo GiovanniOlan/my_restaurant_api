@@ -11,7 +11,7 @@ class Restaurant(BaseModel):
     res_logo        = models.ImageField('Logo',null=True, blank=True)
     res_slogan      = models.CharField('Slogan',max_length=50)
     res_mainimage   = models.ImageField('Imagen Principal',null=True, blank=True)
-    res_fkuserowner = models.ForeignKey(UserOwner,on_delete=models.CASCADE,db_column='res_fkuserowner',verbose_name='Propietario')
+    res_fkuserowner = models.ForeignKey(UserOwner,on_delete=models.CASCADE,default='',db_column='res_fkuserowner',verbose_name='Propietario')
     usu_historical  = HistoricalRecords()
     
     @property
@@ -36,7 +36,7 @@ class Restaurant(BaseModel):
 class CategoryMenu(BaseModel):
     catmen_name         = models.CharField('Nombre',max_length=30) 
     catmen_description  = models.TextField('Descripción')
-    catmen_fkrestaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE,db_column='catmen_fkrestaurant', verbose_name='Restaurante')
+    catmen_fkrestaurant = models.ForeignKey(Restaurant,default='', on_delete=models.CASCADE,db_column='catmen_fkrestaurant', verbose_name='Restaurante')
     catmen_historical  = HistoricalRecords()
     
     @property
@@ -61,7 +61,7 @@ class CategoryMenuItem(BaseModel):
     catmenite_for         = models.PositiveSmallIntegerField('Para Cantidad De Personas')
     catmenite_image       = models.ImageField('Imagen',upload_to='images/menu-item')
     catmenite_price       = models.DecimalField('Precio',max_digits=10, decimal_places=2)
-    catmenite_fkcatmenu   = models.ForeignKey(CategoryMenu, on_delete=models.CASCADE,db_column='catmenite_fkcatmenu', verbose_name='Categoria')
+    catmenite_fkcatmenu   = models.ForeignKey(CategoryMenu, default='',on_delete=models.CASCADE,db_column='catmenite_fkcatmenu', verbose_name='Categoria')
     catmenite_historical  = HistoricalRecords()
     
     @property
